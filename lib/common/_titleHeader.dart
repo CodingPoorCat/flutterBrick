@@ -46,7 +46,7 @@ class TitleHeaderState extends State<TitleHeader>{
               ],
             ),
             widget.moreBtn?
-            Row(children: <Widget>[Text('查看更多'),Icon(Icons.chevron_right)]):''
+            Row(children: <Widget>[Text('查看更多'),Icon(Icons.chevron_right)]):Container()
             ])
 
     );

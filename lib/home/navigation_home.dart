@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'banner/infiniteBanner.dart';
 import 'expertList/expertList.dart';
+import 'recommendList/recommendList.dart';
 
 class PageHome extends StatefulWidget {
   State<StatefulWidget> createState(){
@@ -27,6 +28,7 @@ class _PageHomeState extends State<PageHome>{
       "url" : 'https://aecpm.alicdn.com/tfscom/TB1i9ZyAQyWBuNjy0FpXXassXXa.png',
     }
   ];
+  
   final OnClick onClick = (int current,Map banner){
     print(banner['id']);
   };
@@ -55,6 +57,7 @@ class _PageHomeState extends State<PageHome>{
 
 
   Widget build(BuildContext context){
+    
     return new Scaffold(
       body: new ListView(
         children: <Widget>[
@@ -63,7 +66,8 @@ class _PageHomeState extends State<PageHome>{
             height: 200.0,
             child: new InfiniteBanner(data:list,indicator:indicator,onClick:onClick),
           ),
-          ExpertList()
+          ExpertList(),
+          RecommendList()
         ],
       )
       
