@@ -5,7 +5,7 @@ class RecommendList extends StatefulWidget {
   final List<Map> list;
   RecommendList({
     Key key,
-    @required this.list
+    this.list
   }):super(key:key);
   @override
     State<StatefulWidget> createState() {

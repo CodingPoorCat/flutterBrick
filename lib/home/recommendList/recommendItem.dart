@@ -14,7 +14,7 @@ class RecommendItemState extends State<RecommendItem> {
   Widget build(BuildContext ctx) {
     return Stack(children: <Widget>[
       Container(
-          padding: EdgeInsets.all(10.0),
+          padding: EdgeInsets.only(top:20.0,bottom:10.0,left:10.0,right:10.0),
           margin: EdgeInsets.only(bottom: 10.0),
           decoration: BoxDecoration(color: Colors.white, boxShadow: <BoxShadow>[
             new BoxShadow(color: Colors.black12, blurRadius: 2.0)
@@ -101,10 +101,12 @@ class RecommendItemState extends State<RecommendItem> {
                 child:ClipRRect(
                   borderRadius: BorderRadius.only(bottomRight:Radius.circular(25.0)),
                   child:SizedBox(
-                    width:25.0,
+                    width:50.0,
                     height:25.0,
                     child: Container(
-                      color:Colors.blue
+                      alignment: Alignment.center,
+                      color:Colors.blue,
+                      child: Text('LOL',style: TextStyle(color:Colors.white),),
                     ),
                   )
                 )
