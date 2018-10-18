@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'navbar/navbar.dart';
+import '../common/tabbar/MyTabview.dart';
 class Expert extends StatefulWidget {
  @override
    State<StatefulWidget> createState() {
@@ -12,7 +13,7 @@ class _ExpertState extends State<Expert> with SingleTickerProviderStateMixin{
   
   Widget build(BuildContext context) {
     return Container(
-      child: Navbar(),
+      child: MyTabview(),
     );
   }
 }

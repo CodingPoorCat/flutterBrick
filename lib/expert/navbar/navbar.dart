@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-
+import '../recommendList/recommendList.dart';
 class Navbar extends StatefulWidget {
   @override
     State<StatefulWidget> createState() {
@@ -18,10 +18,10 @@ class NavbarState extends State<Navbar> with SingleTickerProviderStateMixin{
      {
        "id":'1',
        "name":'守望先锋'
-     },
+     }, 
      {
        "id":'2',
-       "name":'dota2'
+       "name":'风暴英雄'
      },
      {
        "id":'3',
@@ -33,6 +33,7 @@ class NavbarState extends State<Navbar> with SingleTickerProviderStateMixin{
      },
    ];
   List<Tab> tabs;
+  List<Widget> recommends = [];
   void initState(){
     super.initState();
     tabs = channelList.map((Map tab){
@@ -51,13 +52,13 @@ class NavbarState extends State<Navbar> with SingleTickerProviderStateMixin{
           elevation:5.0,
           child: TabBar(
             // 是否可滚动
-            isScrollable: true,
+            isScrollable: tabs.length>5,
             //指示器颜色
             indicatorColor:Colors.white,
             //选中标签的文字颜色
             labelColor: Colors.white,
             //选中标签的文字样式
-            labelStyle: TextStyle(fontSize:18.0),
+            labelStyle: TextStyle(fontSize:14.0),
             //未选中时tab的文字颜色
             unselectedLabelColor:Colors.white,
             //未选中时tab的文字样式
