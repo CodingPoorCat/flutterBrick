@@ -37,6 +37,7 @@ class MyTabviewState extends State<MyTabview>{
               return Offstage(
                 offstage: _currenttab!=tab,
                 child: Container(
+                  alignment: Alignment.center,
                   color:Colors.blue,
                   child:Text(tab.text)
                 ) ,
