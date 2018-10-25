@@ -22,7 +22,6 @@ class _HomeState extends State<Home>{
         });
     }
     return Scaffold(
-      
       body: _navigationPages[_currentindex],
       bottomNavigationBar : BottomNavigationBar(
         onTap: onTabTapped,

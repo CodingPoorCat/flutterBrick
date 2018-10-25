@@ -31,6 +31,26 @@ class NavbarState extends State<Navbar> with SingleTickerProviderStateMixin{
        "id":'4',
        "name":'Dota2'
      },
+     {
+       "id":'0',
+       "name":'英雄联盟'
+     },
+     {
+       "id":'1',
+       "name":'守望先锋'
+     }, 
+     {
+       "id":'2',
+       "name":'风暴英雄'
+     },
+     {
+       "id":'3',
+       "name":'CSGO'
+     },
+     {
+       "id":'4',
+       "name":'Dota2'
+     },
    ];
   List<Tab> tabs;
   List<Widget> recommends = [];

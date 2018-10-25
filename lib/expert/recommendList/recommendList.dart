@@ -83,10 +83,10 @@ class RecommendListState extends State<RecommendList>{
     ];
   List<Widget> recommenList = [];
 
-  List<Widget> initRecommendList (dataList){
-    recommenList =  dataList.map((recommend){
-      return RecommendItem(recommend:recommend);
-    }).toList();
+  List<Widget> initRecommendList (List<Map> dataList){
+    for(var i = 0;i<dataList.length;i++ ){
+      recommenList.add(RecommendItem(recommend:dataList[i]));
+    };
     return recommenList;
   }
 

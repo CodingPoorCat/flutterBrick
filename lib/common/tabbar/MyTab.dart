@@ -22,35 +22,79 @@ final List<NewsTab> NewsTabs = <NewsTab>[
   new NewsTab('绝地求生','绝地求生'),
   new NewsTab('CS:GO','CS:GO'),
   new NewsTab('彩虹6号','彩虹6号'),
+  new NewsTab('魔兽争霸','魔兽争霸'),
+  new NewsTab('英雄联盟','英雄联盟'),
+  new NewsTab('王者荣耀','王者荣耀'),
+  new NewsTab('Dota2','Dota2'),
+  new NewsTab('守望先锋','守望先锋'),
+  new NewsTab('绝地求生','绝地求生'),
+  new NewsTab('CS:GO','CS:GO'),
+  new NewsTab('彩虹6号','彩虹6号'),
+  new NewsTab('魔兽争霸','魔兽争霸'),
 ];
 
-class TabNavigation extends StatelessWidget {
-  TabNavigation(
-    {this.currentTab, this.onSelectTab}
+class TabNavigation extends StatefulWidget {
+  TabNavigation({
+    this.currentTab, 
+    this.onSelectTab,
+    this.isScrollable:true}
   );
   // 以下两个参数由父组件传入并由父组件管理相关状态
   // 参考react的组件开发
   final NewsTab currentTab;
+  final bool isScrollable;
   // TODO
   // ValueChanged的作用是？
+  final ValueChanged<NewsTab> onSelectTab;  //这个参数比较关键，仔细理解下，省了setState()调用的环节
+
+  @override
+    State<StatefulWidget> createState() {
+      // TODO: implement createState
+      return _TabNavigationState();
+    }
+}
+
+class _TabNavigationState extends State<TabNavigation>{
+  ScrollController controller = new ScrollController();
+  List<double> xOffsets = <double>[];
+  int currentIndex = 0;
+  double currentPosition = 0.0;
+  double deviceSize =0.0;
   @override
   Widget build(BuildContext context) {
     List<Widget> _renderTabs = [];
-    _renderTabs = NewsTabs.map((item){
-        // 此处使用Expanded，但是当tab页超级多时，会压缩到看不到，应该有isScroll来管理是否使用Expaned
-        // TODO:增加可控参数isScroll
-        return Container(
-          child: InkWell(
-            onTap:()=>onSelectTab(item,),
+   deviceSize =  MediaQuery.of(context).size.width;
+    for(var i = 0;i<NewsTabs.length;i++){
+      _renderTabs.add(
+          InkWell(
+            onTap:(){_handleTap(NewsTabs[i],i);},
             child:Container(
-              height: 40.0,
-              padding: EdgeInsets.all(5.0),
+              padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
                 alignment: Alignment.center,
-                child:Text(item.text,style: TextStyle(color:_colorTabMatching(item:item)))
+                child:Text(NewsTabs[i].text,style: TextStyle(color:_colorTabMatching(item:NewsTabs[i])))
               )
         ));
-      }).toList();
-
+        if(widget.isScrollable){
+          _renderTabs[i] = Container(
+            child: _renderTabs[i],
+          );
+        }else{
+          _renderTabs[i] = Expanded(
+            child: _renderTabs[i],
+          );
+        }
+    }
+    if(widget.isScrollable){
+      return SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        controller:controller,
+        child: Container(
+          child: _TabBar(
+            onPerformLayout: _saveTabOffsets,
+            children:_renderTabs
+            ),
+        ));
+    }
     return Container(
       height: 50.0,
       child: _TabBar(
@@ -58,23 +102,50 @@ class TabNavigation extends StatelessWidget {
         children:_renderTabs
         ),
     );
-    return Row(children: _renderTabs,);
   }
   Color _colorTabMatching({NewsTab item}) {
-    return currentTab == item ? Colors.black : Colors.grey;
+    return widget.currentTab == item ? Colors.black : Colors.grey;
   }
-  final ValueChanged<NewsTab> onSelectTab;  //这个参数比较关键，仔细理解下，省了setState()调用的环节
-  
-}
-// Called each time layout completes.
+
+  @override
+    void didUpdateWidget(TabNavigation oldWidget) {
+      // TODO: implement didUpdateWidget
+      super.didUpdateWidget(oldWidget);
+
+    }
+  void _updateScroller(index){
+    // 判断当前位置和要滚动的位置，决定滚动距离
+    // 点击的tab项就是当前的tab项
+    double moveDistance = 0.0;
+    if(currentIndex == index){
+      return;
+    }
+    if(xOffsets[index] > deviceSize/2){
+      moveDistance = (xOffsets[index] - deviceSize/2)+(xOffsets[index+1]-xOffsets[index])/2;
+    }
+    // 计算点击的tab项要当前屏幕中心的距离
+    controller.animateTo(moveDistance, duration: kTabScrollDuration, curve: Curves.ease);
+    currentIndex = index;
+    currentPosition = xOffsets[index];
+  }
+  void _handleTap(item,index){
+    widget.onSelectTab(item,);
+    _updateScroller(index);
+  }
+  // Called each time layout completes.
   void _saveTabOffsets(List<double> tabOffsets, TextDirection textDirection, double width) {
-    print('???????????');
+    xOffsets = tabOffsets;
   }
+}
+
+
+
+
 class _TabBar extends Flex {
   _TabBar({
     Key key,
     List<Widget> children = const <Widget>[],
-    this.onPerformLayout:_saveTabOffsets
+    this.onPerformLayout
   }):super(
     children:children,
     direction: Axis.horizontal,
@@ -97,11 +168,11 @@ class _TabBar extends Flex {
         verticalDirection: verticalDirection,
       );
   }
-  @override
-  void updateRenderObject(BuildContext context, _MyTabRenderer renderObject) {
-    super.updateRenderObject(context, renderObject);
-    renderObject.onPerformLayout = onPerformLayout;
-  }
+  // @override
+  // void updateRenderObject(BuildContext context, _MyTabRenderer renderObject) {
+  //   super.updateRenderObject(context, renderObject);
+  //   renderObject.onPerformLayout = onPerformLayout;
+  // }
 }
 class _MyTabRenderer extends RenderFlex {
     _MyTabRenderer({
@@ -121,7 +192,6 @@ class _MyTabRenderer extends RenderFlex {
     );
     _LayoutCallback onPerformLayout;
 
-
     @override
   void performLayout() {
     super.performLayout();
@@ -130,17 +200,22 @@ class _MyTabRenderer extends RenderFlex {
     while (child != null) {
       final FlexParentData childParentData = child.parentData;
       xOffsets.add(childParentData.offset.dx);
-      print(child.size.width);
       assert(child.parentData == childParentData);
       child = childParentData.nextSibling;
     }
-
-    print('-------------');
-    print(size);
-    print('-------------');
-    // onPerformLayout();
+    switch (textDirection) {
+      case TextDirection.rtl:
+        xOffsets.insert(0, size.width);
+        break;
+      case TextDirection.ltr:
+        xOffsets.add(size.width);
+        break;
     }
-  }
+    onPerformLayout(xOffsets,textDirection,size.width);
+    }
+
+   
+}
 typedef _LayoutCallback = void Function(List<double> xOffsets, TextDirection textDirection, double width);
 
 

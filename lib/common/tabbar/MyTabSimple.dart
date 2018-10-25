@@ -15,6 +15,15 @@ final List<NewsTab> NewsTabs = <NewsTab>[
   new NewsTab('金融','financial'),
   new NewsTab('科技','technology'),
   new NewsTab('医疗','medical'),
+  new NewsTab('金融','financial'),
+  new NewsTab('科技','technology'),
+  new NewsTab('医疗','medical'),
+  new NewsTab('金融','financial'),
+  new NewsTab('科技','technology'),
+  new NewsTab('医疗','medical'),
+  new NewsTab('金融','financial'),
+  new NewsTab('科技','technology'),
+  new NewsTab('医疗','medical'),
 ];
 
 class TabNavigation extends StatelessWidget {

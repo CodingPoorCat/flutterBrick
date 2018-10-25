@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'MyTab.dart';
+import '../../expert/recommendList/recommendList.dart';
 
 class MyTabview extends StatefulWidget {
   final NewsTab currentTab;
@@ -38,8 +39,7 @@ class MyTabviewState extends State<MyTabview>{
                 offstage: _currenttab!=tab,
                 child: Container(
                   alignment: Alignment.center,
-                  color:Colors.blue,
-                  child:Text(tab.text)
+                  child:RecommendList()
                 ) ,
               );
             }).toList()
